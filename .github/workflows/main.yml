@@ -2,30 +2,30 @@ name: CI
 
 on:
   push:
+    branches:
+      - dantti/build_self
   pull_request:
-  workflow_dispatch:
-  schedule:
-    # build at least once a month
-    - cron: '0 0 1 * *'
+    branches:
+      - dantti/build_self
 
 jobs:
   build-and-test:
     strategy:
       matrix:
-        ARCH: [x86_64, i386, armhf, aarch64]
+        ARCH: [x86_64]
         BUILD_TYPE: ["appimage"]
         USE_STATIC_RUNTIME: [""]
 
-        include:
-          # test build
-          - ARCH: x86_64
-            DOCKER_ARCH: amd64
-            BUILD_TYPE: coverage
-
-          # experimental build
-          - ARCH: x86_64
-            BUILD_TYPE: appimage
-            USE_STATIC_RUNTIME: 1
+        # include:
+        #   # test build
+        #   - ARCH: x86_64
+        #     DOCKER_ARCH: amd64
+        #     BUILD_TYPE: coverage
+        #
+        #   # experimental build
+        #   - ARCH: x86_64
+        #     BUILD_TYPE: appimage
+        #     USE_STATIC_RUNTIME: 1
 
       fail-fast: false
 
